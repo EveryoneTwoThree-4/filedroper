@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>FileDrop — передача файлов</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <a class="brand" href="/"><span class="brand-icon">↗</span> FileDrop</a>
+      <span class="secure"><i></i> Просто и удобно</span>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow">ПЕРЕДАЧА ФАЙЛОВ МЕЖДУ УСТРОЙСТВАМИ</div>
+      <h1>Отправь файл.<br><span>Забери на другом устройстве.</span></h1>
+      <p>Загрузи файл с телефона, получи короткий код и скачай его на компьютере. Или наоборот.</p>
+    </section>
+
+    <section class="panel">
+      <nav class="tabs" aria-label="Действие">
+        <button class="tab active" id="uploadTab" type="button">↑ Загрузить</button>
+        <button class="tab" id="downloadTab" type="button">↓ Скачать</button>
+      </nav>
+
+      <section id="uploadPane">
+        <form id="uploadForm">
+          <label class="dropzone" id="dropzone" for="fileInput">
+            <span class="upload-symbol">↑</span>
+            <strong>Выбери файл или перетащи сюда</strong>
+            <span class="muted">Можно загрузить с телефона или компьютера</span>
+            <span class="choose">Выбрать файл</span>
+            <input id="fileInput" name="file" type="file" required>
+          </label>
+          <div class="file-picked hidden" id="filePicked"></div>
+          <button class="primary" id="uploadButton" type="submit" disabled>Загрузить файл</button>
+        </form>
+        <div class="progress-wrap hidden" id="progressWrap">
+          <div class="progress-meta"><span id="progressLabel">Загрузка…</span><b id="progressPercent">0%</b></div>
+          <div class="progress"><span id="progressBar"></span></div>
+        </div>
+        <div class="result hidden" id="uploadResult">
+          <div class="success-mark">✓</div>
+          <h2>Файл готов!</h2>
+          <p class="muted">Введи этот код на другом устройстве</p>
+          <div class="code-display" id="resultCode"></div>
+          <button class="secondary" id="copyCode" type="button">Скопировать код</button>
+          <div id="qrcode" aria-label="QR-код для открытия страницы"></div>
+          <p class="small muted" id="expiryText"></p>
+          <button class="text-button" id="sendAnother" type="button">Загрузить ещё один файл</button>
+        </div>
+      </section>
+
+      <section id="downloadPane" class="hidden">
+        <form id="downloadForm">
+          <label class="field-label" for="codeInput">Код файла</label>
+          <input class="code-input" id="codeInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Например, 482913" required>
+          <button class="primary" type="submit">Найти файл</button>
+        </form>
+        <div class="download-result hidden" id="downloadResult">
+          <div class="file-icon">▤</div>
+          <div class="file-info"><strong id="downloadName"></strong><span class="muted small" id="downloadSize"></span></div>
+          <a class="primary download-link" id="downloadLink">Скачать файл ↓</a>
+        </div>
+      </section>
+      <p class="error hidden" id="errorMessage" role="alert"></p>
+    </section>
+
+    <footer><span>Файлы автоматически удаляются через 24 часа.</span><span>Не загружай конфиденциальные данные.</span></footer>
+  </main>
+</body>
+</html>
