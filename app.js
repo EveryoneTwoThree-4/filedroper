@@ -23,7 +23,7 @@ const frameName="fd_"+Date.now();frame=document.createElement("iframe");frame.na
 form=document.createElement("form");form.method="POST";form.action=API_URL;form.target=frameName;form.hidden=true;
 const input=document.createElement("input");input.type="hidden";input.name="payload";input.value=JSON.stringify(payload);form.append(input);document.body.append(form);
 const finish=()=>{clearTimeout(timer);window.removeEventListener("message",onMessage);form.remove();frame.remove();$("progressWrap").classList.add("hidden");uploadButton.disabled=false};
-function onMessage(ev){if(ev.source!==frame.contentWindow)return;const d=ev.data;if(!d||d.type!=="FILEDROP_RESULT"||d.nonce!==nonce)return;finish();if(!d.ok)return err(d.error||"Ошибка загрузки.");$("resultCode").textContent=d.code;$("uploadResult").classList.remove("hidden")}
+function onMessage(ev){const d=ev.data;if(!d||d.type!=="FILEDROP_RESULT"||d.nonce!==nonce)return;finish();if(!d.ok)return err(d.error||"Ошибка загрузки.");$("resultCode").textContent=d.code;$("uploadResult").classList.remove("hidden")}
 window.addEventListener("message",onMessage);timer=setTimeout(()=>{finish();err("Сервер не ответил. Попробуй ещё раз.")},120000);
 $("progressLabel").textContent="Отправляем файл…";$("progressPercent").textContent="30%";$("progressBar").style.width="30%";form.submit();
 }catch(ex){if(form)form.remove();if(frame)frame.remove();$("progressWrap").classList.add("hidden");uploadButton.disabled=false;err(ex.message||"Ошибка загрузки.")}
